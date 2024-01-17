@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 
 <?import javafx.scene.control.ListView?>
@@ -13,5 +14,6 @@
     <Button text="Search" onAction="#searchButtonClicked"/>
     <ListView fx:id="resultListView"/>
     <ListView fx:id="chaptersListView"/>
+    <ImageView fx:id="mangaImageView" fitWidth="200" fitHeight="200"/>
 
 </HBox>
