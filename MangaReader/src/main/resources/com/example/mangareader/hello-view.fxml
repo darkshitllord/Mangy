@@ -12,5 +12,6 @@
     <TextField fx:id="searchBar" promptText="Enter manga title"/>
     <Button text="Search" onAction="#searchButtonClicked"/>
     <ListView fx:id="resultListView"/>
+    <ListView fx:id="chaptersListView"/>
 
 </HBox>

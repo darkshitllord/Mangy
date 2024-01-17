@@ -1,17 +1,18 @@
 package Data;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import objects.MangaEntry;
+import objects.ChapterEntry;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Parse {
-    public static ObservableList<String> parseMangaTitles(String jsonResponse) {
-        ObservableList<String> titles = FXCollections.observableArrayList();
+    public static List<MangaEntry> parseMangaTitles(String jsonResponse) {
+        List<MangaEntry> mangaEntries = new ArrayList<>();
 
         try {
-            System.out.println("JSON Response: " + jsonResponse); // Add this line for debugging
-
             JSONObject json = new JSONObject(jsonResponse);
             JSONArray results = json.getJSONArray("data");
 
@@ -20,14 +21,51 @@ public class Parse {
                 JSONObject attributes = manga.getJSONObject("attributes");
                 JSONObject titleObject = attributes.getJSONObject("title");
 
-                // Extract only the English title
+                String mangaId = manga.getString("id");
                 String englishTitle = titleObject.getString("en");
-                titles.add(englishTitle);
+
+                mangaEntries.add(new MangaEntry(englishTitle, mangaId));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return titles;
+        return mangaEntries;
     }
+
+    public static List<ChapterEntry> parseChapters(String jsonResponse) {
+        List<ChapterEntry> chapters = new ArrayList<>();
+
+        try {
+            JSONObject json = new JSONObject(jsonResponse);
+            JSONArray data = json.getJSONArray("data");
+
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject chapterObject = data.getJSONObject(i);
+                JSONObject attributes = chapterObject.getJSONObject("attributes");
+
+                // Check if the "translatedLanguage" is "en"
+                String translatedLanguage = attributes.getString("translatedLanguage");
+                if ("en".equalsIgnoreCase(translatedLanguage)) {
+                    String chapterId = chapterObject.getString("id");
+                    String chapterNumber = attributes.getString("chapter");
+
+                    // Check if the "title" field is a string
+                    String chapterTitle = attributes.optString("title", "");
+
+                    ChapterEntry chapterEntry = new ChapterEntry(chapterId, chapterNumber, chapterTitle);
+                    chapters.add(chapterEntry);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(chapters);
+        return chapters;
+    }
+
+
+
+
 }
