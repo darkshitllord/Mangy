@@ -4,11 +4,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 
+<?import javafx.scene.control.ListView?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.mangareader.HelloController">
 
     <TextField fx:id="searchBar" promptText="Enter manga title"/>
     <Button text="Search" onAction="#searchButtonClicked"/>
+    <ListView fx:id="resultListView"/>
 
 </HBox>

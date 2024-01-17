@@ -14,6 +14,9 @@ public class HelloController {
     private Button searchButton;
 
     @FXML
+    private ListView<String> resultListView;
+
+    @FXML
     private void searchButtonClicked() {
         String searchQuery = searchBar.getText();
         System.out.println(MangyAPI.searchRequest(searchQuery));

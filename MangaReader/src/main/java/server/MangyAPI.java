@@ -1,9 +1,14 @@
 package server;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.util.zip.GZIPInputStream;
 
 public abstract class MangyAPI {
 
@@ -12,8 +17,11 @@ public abstract class MangyAPI {
 
     public static String searchRequest(String searchQuery) {
         try {
+            // Replace spaces with %20 in the search query
+            String formattedSearchQuery = searchQuery.replace(" ", "%20");
+
             // Construct the API request URL dynamically
-            String apiUrl = API_ENDPOINT + "?title=" + searchQuery + "&limit=20" +
+            String apiUrl = API_ENDPOINT + "?title=" + formattedSearchQuery + "&limit=20" +
                     "&contentRating%5B%5D=safe&contentRating%5B%5D=suggestive&contentRating%5B%5D=erotica" +
                     "&includes%5B%5D=cover_art&order%5Brelevance%5D=desc";
 
@@ -36,12 +44,35 @@ public abstract class MangyAPI {
                     .build();
 
             // Send the HTTP request and return the response body
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            return response.body();
+            HttpResponse<byte[]> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofByteArray());
+
+            // Check if the response is compressed and decompress if needed
+            if ("gzip".equals(response.headers().firstValue("Content-Encoding").orElse(null))) {
+                // Decompress the response body
+                try (GZIPInputStream gzipInputStream = new GZIPInputStream(new ByteArrayInputStream(response.body()));
+                     InputStreamReader reader = new InputStreamReader(gzipInputStream, StandardCharsets.UTF_8)) {
+
+                    // Read the decompressed content
+                    StringBuilder responseBody = new StringBuilder();
+                    char[] buffer = new char[1024];
+                    int bytesRead;
+                    while ((bytesRead = reader.read(buffer)) != -1) {
+                        responseBody.append(buffer, 0, bytesRead);
+                    }
+
+                    // Print the decompressed response body
+                    System.out.println("Decompressed Response Body: " + responseBody.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // If not compressed, print the response body as is
+                System.out.println("Response Body: " + new String(response.body(), StandardCharsets.UTF_8));
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error occurred during the request.";
         }
+        return null;
     }
 
 }
