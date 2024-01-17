@@ -60,19 +60,18 @@ public abstract class MangyAPI {
                         responseBody.append(buffer, 0, bytesRead);
                     }
 
-                    // Print the decompressed response body
-                    System.out.println("Decompressed Response Body: " + responseBody.toString());
+                    // Return the decompressed response body
+                    return responseBody.toString();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else {
-                // If not compressed, print the response body as is
-                System.out.println("Response Body: " + new String(response.body(), StandardCharsets.UTF_8));
+                // If not compressed, return the response body as is
+                return new String(response.body(), StandardCharsets.UTF_8);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-
 }
