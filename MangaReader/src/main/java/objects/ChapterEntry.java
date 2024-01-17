@@ -2,30 +2,30 @@ package objects;
 
 public class ChapterEntry {
 
-    private String id;
-    private String chapter;
+    private String chapterID;
+    private String chapterNumber;
     private String title;
 
     public ChapterEntry(String id, String chapter, String title) {
-        this.id = id;
-        this.chapter = chapter;
+        this.chapterID = id;
+        this.chapterNumber = chapter;
         this.title = title;
     }
 
-    public String getId() {
-        return id;
+    public String getChapterID() {
+        return chapterID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setChapterID(String chapterID) {
+        this.chapterID = chapterID;
     }
 
-    public String getChapter() {
-        return chapter;
+    public String getChapterNumber() {
+        return chapterNumber;
     }
 
-    public void setChapter(String chapter) {
-        this.chapter = chapter;
+    public void setChapterNumber(String chapterNumber) {
+        this.chapterNumber = chapterNumber;
     }
 
     public String getTitle() {
@@ -39,8 +39,8 @@ public class ChapterEntry {
     @Override
     public String toString() {
         return "ChapterEntry{" +
-                "id='" + id + '\'' +
-                ", chapter='" + chapter + '\'' +
+                "id='" + chapterID + '\'' +
+                ", chapter='" + chapterNumber + '\'' +
                 ", title='" + title + '\'' +
                 '}';
     }

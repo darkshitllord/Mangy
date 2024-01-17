@@ -10,4 +10,6 @@ module com.example.mangareader {
 
     opens com.example.mangareader to javafx.fxml;
     exports com.example.mangareader;
+    exports controllers;
+    opens controllers to javafx.fxml;
 }

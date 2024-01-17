@@ -65,7 +65,26 @@ public class Parse {
         return chapters;
     }
 
+    public static List<String> parseImageNames(String jsonResponse) {
+        List<String> imageNames = new ArrayList<>();
 
+        try {
+            JSONObject json = new JSONObject(jsonResponse);
 
+            // Check if the result is "ok"
+            if ("ok".equalsIgnoreCase(json.getString("result"))) {
+                JSONObject chapter = json.getJSONObject("chapter");
+                JSONArray data = chapter.getJSONArray("data");
+
+                for (int i = 0; i < data.length(); i++) {
+                    imageNames.add(data.getString(i));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return imageNames;
+    }
 
 }
