@@ -22,5 +22,4 @@
     </StackPane>
     <Button text="Next" onAction="#nextButtonClicked" style="-fx-background-color: #555555; -fx-text-fill: white;"/>
 
-
 </HBox>
