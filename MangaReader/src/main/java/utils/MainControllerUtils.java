@@ -66,6 +66,9 @@ public class MainControllerUtils {
     public static void handleChapterEntryClick(List<ChapterEntry> chapters, ListView<String> chaptersListView,
                                                List<String> imageNames) {
         if (chaptersListView.getSelectionModel().getSelectedItem() != null) {
+            // Reset the current image index when switching to a new chapter
+            mainController.resetCurrentImageIndex();
+
             // Single-click detected, get the selected chapter number
             String selectedChapter = chaptersListView.getSelectionModel().getSelectedItem();
 

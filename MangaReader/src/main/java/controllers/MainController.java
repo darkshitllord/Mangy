@@ -42,6 +42,10 @@ public class MainController {
         mangaImageView.fitHeightProperty().bind(imageStackPane.heightProperty());
     }
 
+    public void resetCurrentImageIndex() {
+        currentImageIndex = 0;
+    }
+
     public void setImageUrls(ArrayList<String> imageUrls) {
         this.imageUrls = imageUrls;
     }
@@ -119,7 +123,6 @@ public class MainController {
                         ((Pane) mangaImageView.getParent()).getChildren().indexOf(mangaImageView), newImageView);
                 mangaImageView = newImageView;
             });
-
 
         }
     }
