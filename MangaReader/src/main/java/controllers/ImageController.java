@@ -1,42 +1,59 @@
-package com.example.mangareader;
+package controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+import javafx.scene.layout.StackPane;
 import java.util.List;
 
 public class ImageController {
+
     @FXML
-    private ImageView imageView;
+    private StackPane imagePane;
 
-    private int currentIndex;
-    private List<String> imageUrls;
+    private int currentIndex = 0;
+    private List<String> imageNames;
 
-    public void showImage(int index, List<String> imageUrls) {
-        this.currentIndex = index;
-        this.imageUrls = imageUrls;
+    public ImageController() {
+        // Initialize your imageNames list if needed
+        // For example: imageNames = new ArrayList<>();
+    }
 
-        if (index >= 0 && index < imageUrls.size()) {
-            String imageUrl = imageUrls.get(index);
+    @FXML
+    private void initialize() {
+        // Add initialization code if needed
+    }
 
-            // Load and display the image
-            Image image = new Image(imageUrl);
-            imageView.setImage(image);
-        }
+    public void displayChapterImages(List<String> imageNames) {
+        this.imageNames = imageNames;
+        showImage();
     }
 
     @FXML
     private void showPreviousImage() {
         if (currentIndex > 0) {
-            showImage(currentIndex - 1, imageUrls);
+            currentIndex--;
+            showImage();
         }
     }
 
     @FXML
     private void showNextImage() {
-        if (currentIndex < imageUrls.size() - 1) {
-            showImage(currentIndex + 1, imageUrls);
+        if (currentIndex < imageNames.size() - 1) {
+            currentIndex++;
+            showImage();
+        }
+    }
+
+    private void showImage() {
+        if (imageNames != null && !imageNames.isEmpty()) {
+            String imageUrl = "https://uploads.mangadex.org/data/cab70eac9f139d6525340c061eedac83/" + imageNames.get(currentIndex);
+            Image image = new Image(imageUrl);
+            ImageView imageView = new ImageView(image);
+
+            // Clear existing content and add the new image
+            imagePane.getChildren().clear();
+            imagePane.getChildren().add(imageView);
         }
     }
 }

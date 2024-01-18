@@ -1,16 +1,28 @@
 package utils;
 
+import controllers.MainController;
 import data.Parse;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 import objects.ChapterEntry;
+import objects.ImageInfo;
 import objects.MangaEntry;
-import utils.MangyAPI;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MangaControllerUtils {
+public class MainControllerUtils {
+
+    private static Stage primaryStage;
+    private static MainController mainController;
+    public static void setPrimaryStage(Stage stage) {
+        primaryStage = stage;
+    }
+    public static void setMainController(MainController controller) {
+        mainController = controller;
+    }
 
     public static void displayMangaTitles(List<MangaEntry> mangaEntries, ListView<String> resultListView) {
         // Extract titles for display in ListView
@@ -38,7 +50,7 @@ public class MangaControllerUtils {
             chapters.clear();
             chapters.addAll(Parse.parseChapters(chaptersResponse));
 
-            MangaControllerUtils.displayChapterNumbers(chapters, chaptersListView);
+            MainControllerUtils.displayChapterNumbers(chapters, chaptersListView);
         }
     }
 
@@ -70,7 +82,32 @@ public class MangaControllerUtils {
                 // Parse chapter images
                 imageNames.clear();
                 imageNames.addAll(Parse.parseImageNames(chapterImagesResponse));
+
+                ImageInfo imageInfo = Parse.parseImageInfo(chapterImagesResponse);
+
+                if (!imageNames.isEmpty()) {
+                    // Create image URLs
+                    ArrayList<String> imageUrls = createImageURLs(imageInfo, imageNames);
+
+                    // Set imageUrls in the MainController instance
+                    mainController.setImageUrls(imageUrls);
+
+                    // Update the image view based on the current index
+                    mainController.updateImageViewWithCurrentIndex();
+                }
             }
         }
     }
+
+    public static ArrayList<String> createImageURLs(ImageInfo imageInfo, List<String> imageNames) {
+        ArrayList<String> imageUrls = new ArrayList<>();
+
+        for (String imageName : imageNames) {
+            String imageUrl = imageInfo.getBaseURL() + "/data/" + imageInfo.getHash() + "/" + imageName;
+            imageUrls.add(imageUrl);
+        }
+
+        return imageUrls;
+    }
+
 }

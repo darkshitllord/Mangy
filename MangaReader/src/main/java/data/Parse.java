@@ -1,5 +1,6 @@
 package data;
 
+import objects.ImageInfo;
 import objects.MangaEntry;
 import objects.ChapterEntry;
 import org.json.JSONArray;
@@ -61,7 +62,6 @@ public class Parse {
             e.printStackTrace();
         }
 
-        System.out.println(chapters);
         return chapters;
     }
 
@@ -85,6 +85,26 @@ public class Parse {
         }
 
         return imageNames;
+    }
+
+    public static ImageInfo parseImageInfo(String jsonResponse) {
+        try {
+            JSONObject json = new JSONObject(jsonResponse);
+
+            // Check if the result is "ok"
+            if ("ok".equalsIgnoreCase(json.getString("result"))) {
+                String baseUrl = json.getString("baseUrl");
+                JSONObject chapter = json.getJSONObject("chapter");
+                String hash = chapter.getString("hash");
+
+                return new ImageInfo(baseUrl, hash);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Return null if parsing fails
+        return null;
     }
 
 }

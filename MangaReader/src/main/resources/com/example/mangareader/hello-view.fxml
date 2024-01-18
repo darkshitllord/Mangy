@@ -2,10 +2,12 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.ImageView?>
+
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="controllers.MainController">
@@ -14,6 +16,10 @@
     <Button text="Search" onAction="#searchButtonClicked"/>
     <ListView fx:id="resultListView"/>
     <ListView fx:id="chaptersListView"/>
-    <ImageView fx:id="mangaImageView" fitWidth="200" fitHeight="200"/>
+    <Button text="Previous" onAction="#previousButtonClicked"/>
+    <StackPane fx:id="imageStackPane">
+        <ImageView fx:id="mangaImageView" fitWidth="400" fitHeight="600" preserveRatio="true"/>
+    </StackPane>
+    <Button text="Next" onAction="#nextButtonClicked"/>
 
 </HBox>
