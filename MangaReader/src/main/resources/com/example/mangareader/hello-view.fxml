@@ -17,8 +17,8 @@
     <ListView fx:id="resultListView"/>
     <ListView fx:id="chaptersListView"/>
     <Button text="Previous" onAction="#previousButtonClicked"/>
-    <StackPane fx:id="imageStackPane">
-        <ImageView fx:id="mangaImageView" fitWidth="400" fitHeight="600" preserveRatio="true"/>
+    <StackPane fx:id="imageStackPane" HBox.hgrow="ALWAYS">
+        <ImageView fx:id="mangaImageView" preserveRatio="true"/>
     </StackPane>
     <Button text="Next" onAction="#nextButtonClicked"/>
 

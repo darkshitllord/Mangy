@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import objects.ChapterEntry;
 import objects.MangaEntry;
 import utils.MainControllerUtils;
@@ -106,10 +107,23 @@ public class MainController {
             // Use Platform.runLater to update UI on the JavaFX Application Thread
             Platform.runLater(() -> {
                 Image image = new Image(imageUrl);
-                mangaImageView.setImage(image);
+                ImageView newImageView = new ImageView(image);
+
+                // Set preserveRatio to true and fitWidth/fitHeight to match the current size of the StackPane
+                newImageView.setPreserveRatio(true);
+                newImageView.setFitWidth(imageStackPane.getWidth());
+                newImageView.setFitHeight(imageStackPane.getHeight());
+
+                // Replace the old ImageView with the new one in your layout
+                ((Pane) mangaImageView.getParent()).getChildren().set(
+                        ((Pane) mangaImageView.getParent()).getChildren().indexOf(mangaImageView), newImageView);
+                mangaImageView = newImageView;
             });
+
+
         }
     }
+
 
 
 }
