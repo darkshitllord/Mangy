@@ -2,16 +2,18 @@ package controllers;
 
 import data.Parse;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
 import objects.ChapterEntry;
 import objects.MangaEntry;
+import utils.CustomException;
 import utils.MainControllerUtils;
 import utils.MangyAPI;
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ public class MainController {
 
     @FXML
     private TextField searchBar;
+    @FXML
+    private HBox root;
 
     @FXML
     private ListView<String> resultListView;
@@ -50,21 +54,20 @@ public class MainController {
         this.imageUrls = imageUrls;
     }
 
-    // Declare chapters as a field
-    private List<ChapterEntry> chapters = new ArrayList<>();
-    private List<String> imageNames = new ArrayList<>();
+    private final List<ChapterEntry> chapters = new ArrayList<>();
+    private final List<String> imageNames = new ArrayList<>();
     private int currentImageIndex = 0;
 
     @FXML
     private void searchButtonClicked() {
         String searchQuery = searchBar.getText();
+
         String jsonResponse = MangyAPI.searchRequest(searchQuery);
 
         List<MangaEntry> mangaEntries = Parse.parseMangaTitles(jsonResponse);
 
         MainControllerUtils.displayMangaTitles(mangaEntries, resultListView);
 
-        // Set up a click event listener for the ListView items
         resultListView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 MainControllerUtils.handleMangaEntryClick(mangaEntries, resultListView, chaptersListView, chapters);
@@ -80,13 +83,8 @@ public class MainController {
         });
     }
 
-    public void updateImageView(String imageUrl) {
-            Image image = new Image(imageUrl);
-            mangaImageView.setImage(image);
-    }
-
     @FXML
-    public void previousButtonClicked(ActionEvent actionEvent) {
+    public void previousButtonClicked() {
         if (!imageUrls.isEmpty()) {
             currentImageIndex = (currentImageIndex - 1 + imageUrls.size()) % imageUrls.size();
             updateImageViewWithCurrentIndex();
@@ -94,7 +92,7 @@ public class MainController {
     }
 
     @FXML
-    public void nextButtonClicked(ActionEvent actionEvent) {
+    public void nextButtonClicked() {
         if (!imageUrls.isEmpty()) {
             currentImageIndex = (currentImageIndex + 1) % imageUrls.size();
             updateImageViewWithCurrentIndex();
@@ -118,7 +116,7 @@ public class MainController {
                 newImageView.setFitWidth(imageStackPane.getWidth());
                 newImageView.setFitHeight(imageStackPane.getHeight());
 
-                // Replace the old ImageView with the new one in your layout
+                // tebra
                 ((Pane) mangaImageView.getParent()).getChildren().set(
                         ((Pane) mangaImageView.getParent()).getChildren().indexOf(mangaImageView), newImageView);
                 mangaImageView = newImageView;
@@ -126,7 +124,5 @@ public class MainController {
 
         }
     }
-
-
 
 }

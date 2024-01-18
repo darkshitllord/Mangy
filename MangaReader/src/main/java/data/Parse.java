@@ -45,9 +45,6 @@ public class Parse {
                 JSONObject chapterObject = data.getJSONObject(i);
                 JSONObject attributes = chapterObject.getJSONObject("attributes");
 
-                // Check if the "translatedLanguage" is "en"
-                String translatedLanguage = attributes.getString("translatedLanguage");
-                if ("en".equalsIgnoreCase(translatedLanguage)) {
                     String chapterId = chapterObject.getString("id");
                     String chapterNumber = attributes.getString("chapter");
 
@@ -56,7 +53,7 @@ public class Parse {
 
                     ChapterEntry chapterEntry = new ChapterEntry(chapterId, chapterNumber, chapterTitle);
                     chapters.add(chapterEntry);
-                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,7 +100,6 @@ public class Parse {
             e.printStackTrace();
         }
 
-        // Return null if parsing fails
         return null;
     }
 

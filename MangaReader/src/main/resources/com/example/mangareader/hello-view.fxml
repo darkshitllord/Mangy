@@ -13,13 +13,14 @@
       fx:controller="controllers.MainController">
 
     <TextField fx:id="searchBar" promptText="Enter manga title"/>
-    <Button text="Search" onAction="#searchButtonClicked"/>
+    <Button text="Search" onAction="#searchButtonClicked" style="-fx-background-color: #555555; -fx-text-fill: white;"/>
     <ListView fx:id="resultListView"/>
     <ListView fx:id="chaptersListView"/>
-    <Button text="Previous" onAction="#previousButtonClicked"/>
+    <Button text="Previous" onAction="#previousButtonClicked" style="-fx-background-color: #555555; -fx-text-fill: white;"/>
     <StackPane fx:id="imageStackPane" HBox.hgrow="ALWAYS">
         <ImageView fx:id="mangaImageView" preserveRatio="true"/>
     </StackPane>
-    <Button text="Next" onAction="#nextButtonClicked"/>
+    <Button text="Next" onAction="#nextButtonClicked" style="-fx-background-color: #555555; -fx-text-fill: white;"/>
+
 
 </HBox>

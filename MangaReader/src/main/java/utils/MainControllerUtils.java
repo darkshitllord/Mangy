@@ -41,7 +41,6 @@ public class MainControllerUtils {
 
             // Retrieve the manga ID and title from the selected entry
             String mangaId = selectedEntry.getMangaID();
-            String title = selectedEntry.getTitle();
 
             // Call the method to get chapters using the manga ID
             String chaptersResponse = MangyAPI.getChapters(mangaId);
