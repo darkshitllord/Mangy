@@ -7,6 +7,7 @@ module com.example.mangareader {
     requires org.kordamp.bootstrapfx.core;
     requires java.net.http;
     requires org.json;
+    requires junit;
 
     opens com.example.mangareader to javafx.fxml;
     exports com.example.mangareader;
